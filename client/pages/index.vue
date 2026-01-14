@@ -3,19 +3,37 @@
 definePageMeta({
     layout: "default"
 })
-const articles = [1, 2, 3, 4, 5];
+const config = useRuntimeConfig()
+
+const { data: serverData } = await useFetch(`/api/key`) // Fetching from our own server API
+
+const { data: posts } = await useFetch(config.public.API_BASE_URL + `/api/posts`, 
+) // Fetching from external API
+async function fetchCountries() {
+    const {data:countryData, error} = await useFetch("/api/countries")
+    console.log("countryData useFetch:", countryData?.value)
+    console.log('error',error.value);
+    
+    
+}
 </script>
 
-
 <template>
-    <div class="">
+    <div class="index">
+        <button @click="fetchCountries">get countries</button>
+        <br />
         <div>
             <h1>List Articles</h1>
         </div>
-        
-        <div v-for="(article, index) in articles" :key="index">
-            <h2>Article - {{ article }}</h2>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem hic alias voluptatibus vel perferendis suscipit repellat mollitia et impedit? Voluptatibus adipisci dolore culpa quidem molestiae veritatis consequuntur rem odit possimus?</p>
+        <!-- if posts exist -->
+        <div v-if="posts?.data">
+            <div v-for="article in posts?.data" :key="article?.id" class="mb-8">
+                <h2>
+                    Article -
+                    <a href="">{{ article?.title }}</a>
+                </h2>
+                <div v-html="article?.post_content"></div>
+            </div>
         </div>
     </div>
 </template>
