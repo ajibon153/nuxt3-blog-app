@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   //     cert: 'localhost.pem'
   //   }
   // },
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss','@pinia/nuxt'],
   components:[
     {
       path: '~/components',
@@ -17,7 +17,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     // // private only available on server-side
-    privateKey: process.env.PRIVATE_KEY || 'mysecretkey123',
+    privateKey: process.env.PRIVATE_KEY,
     // API_URL: process.env.API_URL,
     // API_BASE_URL: process.env.API_BASE_URL
     public: {
